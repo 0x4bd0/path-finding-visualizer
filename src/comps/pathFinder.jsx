@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
+import aStar from '../algros/aStar';
 import Bloc from './bloc';
 
 const initialCols = 20;
 const initialRows = 10;
-
 let startBlocRow, startBlocCol, endBlocRow, endBlocCol;
 startBlocRow = startBlocCol = 0;
 endBlocCol = initialCols - 1;
@@ -28,6 +28,12 @@ const PathFinder = () => {
         
         setgrid(grid)
         addNextToBlocs(grid)
+
+        const startBloc = grid[startBlocRow][startBlocCol];
+				const endBloc = grid[endBlocRow][endBlocCol];
+
+				aStar(startBloc, endBloc);
+
 	};
 
     function renderBloc(i, j) {
