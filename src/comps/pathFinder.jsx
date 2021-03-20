@@ -136,7 +136,7 @@ const PathFinder = () => {
 	);
 	return (
 		<div className='pContainer'>
-			<h1>Path finder</h1>
+			<h1>Path finding visualizer</h1>
 			<div className='board'>{renderBlocs}</div>
 			{cantFindPath && <h2 className='noPath'>Can't Find a Path</h2>}
 			{!cantFindPath && path && (
@@ -144,14 +144,11 @@ const PathFinder = () => {
 					<h2>Path :</h2>
 					<p>
 						{path
-							
-							
+
 							.map((item) => `[${item.x}, ${item.y}]`)
-							
-							
+
 							.reverse()
-							
-							
+
 							.join(', ')}
 					</p>
 				</div>

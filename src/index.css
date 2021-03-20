@@ -14,11 +14,16 @@ code {
 }
 
 
+*{
+  font: 'Ubuntu'
+}
+
 .bloc {
   height: 50px;
   width: 50px;
   background-color: aquamarine;
   border: 1px solid white;
+  border-radius: 5px;
 }
 
 .blocRow {
@@ -49,8 +54,13 @@ code {
 
 .isWall {
   background-color: black;
+  color: white;
 }
 
 .noPath{
   color: red;
+}
+
+.xyp{
+  font-size: 50%;
 }

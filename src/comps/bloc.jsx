@@ -19,7 +19,7 @@ const Bloc = ({ props }) => {
 			className={`bloc ${meClasse} ${inPath} ${isWall}`}
 			id={`bloc-${rowIndex}-${colIndex}`}
 		>
-			{`${rowIndex}-${colIndex}`}
+			<p className='xyp'>{`${rowIndex}, ${colIndex}`}</p>
 		</div>
 	);
 };
