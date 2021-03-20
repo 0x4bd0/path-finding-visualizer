@@ -1,54 +1,57 @@
 import { useEffect, useState } from 'react';
 import Bloc from './bloc';
 
-const initialCols = 5;
-const initialRows = 5;
+const initialCols = 20;
+const initialRows = 10;
 
+let startBlocRow, startBlocCol, endBlocRow, endBlocCol;
+startBlocRow = startBlocCol = 0;
+endBlocCol = initialCols - 1;
+endBlocRow = initialRows - 1;
+    
 const PathFinder = () => {
     const [grid, setgrid] = useState([]);
+    console.log(grid);
     useEffect(() => {
 			generateGrid();
     }, []);
 	const generateGrid = () => {
-		const grid = new Array(initialCols)
+		const grid = new Array(initialRows)
 			.fill(null)
-			.map((item) => new Array(initialRows).fill(null));
+			.map((item) => new Array(initialCols).fill(null));
 
-		for (let i = 0; i < initialCols; i++) {
-			for (let j = 0; j < initialRows; j++) {
-				grid[i][j] = renderBloc(i, j);
+		for (let i = 0; i < initialRows; i++) {
+			for (let j = 0; j < initialCols; j++) {
+				grid[i][j] = new renderBloc(i, j);
 			}
-        }
+		}
         
 		setgrid(grid);
 	};
 
-	const renderBloc = (i, j) => {
-		return {
-			x: i,
-			y: j,
-			a: 0,
-			b: 0,
-			c: 0,
+    function renderBloc(i, j) {
+			this.x = i;
+			this.y = j;
+			this.isStart = this.x === startBlocRow && this.y === startBlocCol;
+			this.isEnd = this.x === endBlocRow && this.y === endBlocCol;
+			this.a = 0;
+			this.b = 0;
+			this.c = 0;
 		};
-	};
 
     const renderBlocs = (
-        <div>
-            {
-                grid.map((row, index) => {
-                    console.log(index);
-                    return (
-											<div key={index} className='blocRow'>
-												{row.map((col, colIndex) => (
-													<Bloc key={colIndex}></Bloc>
-												))}
-											</div>
-										);
-                })
-            }
-        </div>
-    )
+			<div>
+				{grid.map((row, index) => {
+					return (
+						<div key={index} className='blocRow'>
+							{row.map((col, colIndex) => (
+								<Bloc key={colIndex}></Bloc>
+							))}
+						</div>
+					);
+				})}
+			</div>
+		);
     return (
 			<div className="pContainer">
 				<h1>Path finder</h1>
