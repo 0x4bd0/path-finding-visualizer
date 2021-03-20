@@ -26,7 +26,8 @@ const PathFinder = () => {
 			}
 		}
         
-		setgrid(grid);
+        setgrid(grid)
+        addNextToBlocs(grid)
 	};
 
     function renderBloc(i, j) {
@@ -36,17 +37,40 @@ const PathFinder = () => {
 			this.isEnd = this.x === endBlocRow && this.y === endBlocCol;
 			this.a = 0;
 			this.b = 0;
-			this.c = 0;
+        this.c = 0;
+        this.nextTo = [];
+        this.previous= null;
+        this.addNextTo = function (grid) {
+            let i = this.x
+            let j = this.y
+            if (i > 0) this.nextTo.push(grid[i - 1][j])
+            if (i < initialRows - 1) this.nextTo.push(grid[i + 1][j])
+            if (j>0) this.nextTo.push(grid[i][j-1]);
+            if (j < initialCols-1) this.nextTo.push(grid[i][j+1]);
+        }
 		};
 
+    const addNextToBlocs = (grid) => {
+        		for (let i = 0; i < initialRows; i++) {
+							for (let j = 0; j < initialCols; j++) {
+								grid[i][j].addNextTo(grid);
+							}
+						}
+    } 
     const renderBlocs = (
 			<div>
-				{grid.map((row, index) => {
+				{grid.map((row, rowIndex) => {
 					return (
-						<div key={index} className='blocRow'>
-							{row.map((col, colIndex) => (
-								<Bloc key={colIndex}></Bloc>
-							))}
+						<div key={rowIndex} className='blocRow'>
+							{row.map((col, colIndex) => {
+								const { isStart, isEnd } = col;
+								return (
+									<Bloc
+										key={colIndex}
+										props={{ isEnd, isStart, rowIndex,  colIndex }}
+									></Bloc>
+								);
+							})}
 						</div>
 					);
 				})}

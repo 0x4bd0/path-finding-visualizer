@@ -34,3 +34,15 @@ code {
 .board {
       margin: 0 auto;
 }
+
+.start {
+  background-color: green;
+}
+
+.end {
+  background-color: red;
+}
+
+.bloc:hover {
+  background-color: royalblue;
+}
