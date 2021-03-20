@@ -11,11 +11,12 @@ endBlocRow = initialRows - 1;
     
 const PathFinder = () => {
 	const [grid, setgrid] = useState([]);
-	const [path, setpath] = useState([]);
+    const [path, setpath] = useState([]);
+    const [endBloc, setendBloc] = useState(null);
 
-	useEffect(() => {
+    useEffect(() => {
 		generateGrid();
-	}, []);
+	}, [endBloc]);
 
 	const generateGrid = () => {
 		const grid = new Array(initialRows)
@@ -31,21 +32,31 @@ const PathFinder = () => {
 		setgrid(grid);
 		addNextToBlocs(grid);
 
-		const startBloc = grid[startBlocRow][startBlocCol];
-		const endBloc = grid[endBlocRow][endBlocCol];
+        const startBloc = grid[startBlocRow][startBlocCol];
+        
+        if (endBloc) {
+            let tmpPath = aStar(startBloc, endBloc);
 
-		let tmpPath = aStar(startBloc, endBloc);
-        setpath(tmpPath);
-	};
+			setpath(tmpPath);
+        }
 
-	useEffect(() => {
-        for (let i = path.length - 1; i > 0; i--) {
-            let tmp = [...grid];
-            setTimeout(function () {
-                tmp[path[i].x][path[i].y].isInPath = true;
-                setgrid(tmp);
-			}, 100);
-		}
+    };
+    
+    const changeTarget = (x, y) => {
+         setendBloc(grid[x][y]);
+    }
+
+    useEffect(() => {
+        if (path) {
+                    for (let i = path.length - 1; i > 0; i--) {
+											let tmp = [...grid];
+											setTimeout(function () {
+												tmp[path[i].x][path[i].y].isInPath = true;
+												setgrid(tmp);
+											}, 100);
+										}
+        }
+
 	}, [path]);
 
 	function renderBloc(i, j) {
@@ -86,7 +97,14 @@ const PathFinder = () => {
 							return (
 								<Bloc
 									key={colIndex}
-									props={{ isEnd, isStart, rowIndex, colIndex, isInPath }}
+									props={{
+										isEnd,
+										isStart,
+										rowIndex,
+										colIndex,
+										isInPath,
+										changeTarget,
+									}}
 								></Bloc>
 							);
 						})}

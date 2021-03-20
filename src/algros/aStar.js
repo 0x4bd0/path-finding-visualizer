@@ -16,15 +16,15 @@ const aStar = (startBloc, endBloc) => {
 
 		let current = openBlocs[leastIndex];
 
-        if (current === endBloc) {
-					let tmp = current;
-					path.push(tmp);
-					while (tmp.previous) {
-						path.push(tmp.previous);
-						tmp = tmp.previous;
-					}
-					return path;
-				}
+		if (current.x === endBloc.x && current.y === endBloc.y) {
+			let tmp = current;
+			path.push(tmp);
+			while (tmp.previous) {
+				path.push(tmp.previous);
+				tmp = tmp.previous;
+			}
+			return path;
+		}
 
 		openBlocs = openBlocs.filter((item) => item !== current);
 		closeBlocs.push(current);
