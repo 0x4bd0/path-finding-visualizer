@@ -14,6 +14,8 @@ const PathFinder = () => {
 	const [grid, setgrid] = useState([]);
     const [path, setpath] = useState([]);
     const [endBloc, setendBloc] = useState(null);
+    const [cantFindPath, setCantFindPath] = useState(false);
+		console.log(cantFindPath);
 
     useEffect(() => {
 		generateGrid();
@@ -37,11 +39,16 @@ const PathFinder = () => {
     useEffect(() => {
 
         if (endBloc) {
-            const startBloc = grid[startBlocRow][startBlocCol];
-            startBloc.wall = false;
-			let tmpPath = aStar(startBloc, endBloc);
-			setpath(tmpPath);
-        }
+					const startBloc = grid[startBlocRow][startBlocCol];
+					startBloc.wall = false;
+					let tmpPath = aStar(startBloc, endBloc);
+					if (tmpPath) {
+						setpath(tmpPath);
+						setCantFindPath(false);
+					} else {
+						setCantFindPath(true);
+					}
+				}
     }, [endBloc])
     
     const cleanPaths = () => {
@@ -63,10 +70,8 @@ const PathFinder = () => {
         if (path) {
             for (let i = 0; i < path.length; i++) {
 										let tmp = [...grid];
-
 												tmp[path[i].x][path[i].y].isInPath = true;
 												setgrid(tmp);
-
 										}
         }
 	}, [path]);
@@ -135,6 +140,7 @@ const PathFinder = () => {
 		<div className='pContainer'>
 			<h1>Path finder</h1>
 			<div className='board'>{renderBlocs}</div>
+			{cantFindPath && <h2 className='noPath'>Can't Find a Path</h2>}
 		</div>
 	);
 };

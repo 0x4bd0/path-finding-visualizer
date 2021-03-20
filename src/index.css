@@ -36,15 +36,11 @@ code {
 }
 
 .start {
-  background-color: green;
-}
-
-.end {
-  background-color: red;
+ background-color: salmon; 
 }
 
 .bloc:hover {
-  background-color: royalblue;
+  background-color: salmon;
 }
 
 .inPath{
@@ -53,4 +49,8 @@ code {
 
 .isWall {
   background-color: black;
+}
+
+.noPath{
+  color: red;
 }
