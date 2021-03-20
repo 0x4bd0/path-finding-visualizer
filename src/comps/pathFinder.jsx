@@ -3,21 +3,20 @@ import aStar from '../algros/aStar';
 import Bloc from './bloc';
 
 const initialCols = 20;
-const initialRows = 10;
+const initialRows = 12;
 let startBlocRow, startBlocCol, endBlocRow, endBlocCol;
 startBlocRow = startBlocCol = 0;
 endBlocCol = initialCols - 1;
 endBlocRow = initialRows - 1;
     
 const PathFinder = () => {
-    let pathTimeOut;
+	let pathTimeOut;
 	const [grid, setgrid] = useState([]);
-    const [path, setpath] = useState([]);
-    const [endBloc, setendBloc] = useState(null);
-    const [cantFindPath, setCantFindPath] = useState(false);
-		console.log(cantFindPath);
+	const [path, setpath] = useState([]);
+	const [endBloc, setendBloc] = useState(null);
+	const [cantFindPath, setCantFindPath] = useState(false);
 
-    useEffect(() => {
+	useEffect(() => {
 		generateGrid();
 	}, []);
 
@@ -30,53 +29,51 @@ const PathFinder = () => {
 			for (let j = 0; j < initialCols; j++) {
 				myGrid[i][j] = new renderBloc(i, j);
 			}
-        }
-        
-        setgrid(myGrid);
-        addNextToBlocs(myGrid);
-    };
-    
-    useEffect(() => {
+		}
 
-        if (endBloc) {
-					const startBloc = grid[startBlocRow][startBlocCol];
-					startBloc.wall = false;
-					let tmpPath = aStar(startBloc, endBloc);
-					if (tmpPath) {
-						setpath(tmpPath);
-						setCantFindPath(false);
-					} else {
-						setCantFindPath(true);
-					}
-				}
-    }, [endBloc])
-    
-    const cleanPaths = () => {
-        let tmp = [...grid]
-        		for (let i = 0; i < initialRows; i++) {
-							for (let j = 0; j < initialCols; j++) {
-								tmp[i][j].isInPath = false;
-							}
-                }
-      setgrid(tmp)
-    }
-    const changeTarget = (x, y) => {
-        clearTimeout(pathTimeOut);
-        cleanPaths();
-        if (!grid[x][y].wall) setendBloc(grid[x][y]);
-    }
+		setgrid(myGrid);
+		addNextToBlocs(myGrid);
+	};
 
-    useEffect(() => {
-        if (path) {
-            for (let i = 0; i < path.length; i++) {
-										let tmp = [...grid];
-												tmp[path[i].x][path[i].y].isInPath = true;
-												setgrid(tmp);
-										}
-        }
+	useEffect(() => {
+		if (endBloc) {
+			const startBloc = grid[startBlocRow][startBlocCol];
+			startBloc.wall = false;
+			let tmpPath = aStar(startBloc, endBloc);
+			if (tmpPath) {
+				setpath(tmpPath);
+				setCantFindPath(false);
+			} else {
+				setCantFindPath(true);
+			}
+		}
+	}, [endBloc]);
+
+	const cleanPaths = () => {
+		let tmp = [...grid];
+		for (let i = 0; i < initialRows; i++) {
+			for (let j = 0; j < initialCols; j++) {
+				tmp[i][j].isInPath = false;
+			}
+		}
+		setgrid(tmp);
+	};
+	const changeTarget = (x, y) => {
+		clearTimeout(pathTimeOut);
+		cleanPaths();
+		if (!grid[x][y].wall) setendBloc(grid[x][y]);
+	};
+
+	useEffect(() => {
+		if (path) {
+			for (let i = 0; i < path.length; i++) {
+				let tmp = [...grid];
+				tmp[path[i].x][path[i].y].isInPath = true;
+				setgrid(tmp);
+			}
+		}
 	}, [path]);
 
-    
 	function renderBloc(i, j) {
 		this.isInPath = false;
 		this.x = i;
@@ -87,11 +84,11 @@ const PathFinder = () => {
 		this.b = 0;
 		this.c = 0;
 		this.nextTo = [];
-        this.previous = null;
-        this.wall = false;
-        if (Math.random(1) < 0.2) {
-            this.wall = true
-        }
+		this.previous = null;
+		this.wall = false;
+		if (Math.random(1) < 0.2) {
+			this.wall = true;
+		}
 		this.addNextTo = function (grid) {
 			let i = this.x;
 			let j = this.y;
@@ -109,6 +106,7 @@ const PathFinder = () => {
 			}
 		}
 	};
+
 	const renderBlocs = (
 		<div>
 			{grid.map((row, rowIndex) => {
@@ -124,8 +122,8 @@ const PathFinder = () => {
 										isStart,
 										rowIndex,
 										colIndex,
-                                        isInPath,
-                                        wall,
+										isInPath,
+										wall,
 										changeTarget,
 									}}
 								></Bloc>
@@ -141,6 +139,23 @@ const PathFinder = () => {
 			<h1>Path finder</h1>
 			<div className='board'>{renderBlocs}</div>
 			{cantFindPath && <h2 className='noPath'>Can't Find a Path</h2>}
+			{!cantFindPath && path && (
+				<div>
+					<h2>Path :</h2>
+					<p>
+						{path
+							
+							
+							.map((item) => `[${item.x}, ${item.y}]`)
+							
+							
+							.reverse()
+							
+							
+							.join(', ')}
+					</p>
+				</div>
+			)}
 		</div>
 	);
 };
