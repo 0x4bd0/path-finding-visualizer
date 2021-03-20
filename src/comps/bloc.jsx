@@ -13,7 +13,7 @@ const Bloc = ({ props }) => {
     const isWall = wall ? 'isWall' : '';
 	return (
 		<div
-			onMouseOver={() => {
+			onMouseUp={() => {
 				changeTarget(rowIndex, colIndex);
 			}}
 			className={`bloc ${meClasse} ${inPath} ${isWall}`}

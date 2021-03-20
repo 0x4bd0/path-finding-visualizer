@@ -10,7 +10,6 @@ endBlocCol = initialCols - 1;
 endBlocRow = initialRows - 1;
     
 const PathFinder = () => {
-	let pathTimeOut;
 	const [grid, setgrid] = useState([]);
 	const [path, setpath] = useState([]);
 	const [endBloc, setendBloc] = useState(null);
@@ -59,7 +58,6 @@ const PathFinder = () => {
 		setgrid(tmp);
 	};
 	const changeTarget = (x, y) => {
-		clearTimeout(pathTimeOut);
 		cleanPaths();
 		if (!grid[x][y].wall) setendBloc(grid[x][y]);
 	};
@@ -137,6 +135,7 @@ const PathFinder = () => {
 	return (
 		<div className='pContainer'>
 			<h1>Path finding visualizer</h1>
+			<h2>Click on the  target</h2>
 			<div className='board'>{renderBlocs}</div>
 			{cantFindPath && <h2 className='noPath'>Can't Find a Path</h2>}
 			{!cantFindPath && path && (
