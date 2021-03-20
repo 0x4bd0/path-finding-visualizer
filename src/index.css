@@ -50,3 +50,7 @@ code {
 .inPath{
   background-color: salmon;
 }
+
+.isWall {
+  background-color: black;
+}

@@ -34,7 +34,7 @@ const aStar = (startBloc, endBloc) => {
 		for (let i = 0; i < neighbours.length; i++) {
 			let neighbour = neighbours[i];
 
-			if (!closeBlocs.includes(neighbour)) {
+			if (!closeBlocs.includes(neighbour) && !neighbour.wall) {
 				let tempA = current.a + 1;
 				let newPath = false;
 

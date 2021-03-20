@@ -10,55 +10,68 @@ endBlocCol = initialCols - 1;
 endBlocRow = initialRows - 1;
     
 const PathFinder = () => {
+    let pathTimeOut;
 	const [grid, setgrid] = useState([]);
     const [path, setpath] = useState([]);
     const [endBloc, setendBloc] = useState(null);
 
     useEffect(() => {
 		generateGrid();
-	}, [endBloc]);
+	}, []);
 
 	const generateGrid = () => {
-		const grid = new Array(initialRows)
+		const myGrid = new Array(initialRows)
 			.fill(null)
 			.map((item) => new Array(initialCols).fill(null));
 
 		for (let i = 0; i < initialRows; i++) {
 			for (let j = 0; j < initialCols; j++) {
-				grid[i][j] = new renderBloc(i, j);
+				myGrid[i][j] = new renderBloc(i, j);
 			}
-		}
-
-		setgrid(grid);
-		addNextToBlocs(grid);
-
-        const startBloc = grid[startBlocRow][startBlocCol];
-        
-        if (endBloc) {
-            let tmpPath = aStar(startBloc, endBloc);
-
-			setpath(tmpPath);
         }
-
+        
+        setgrid(myGrid);
+        addNextToBlocs(myGrid);
     };
     
+    useEffect(() => {
+
+        if (endBloc) {
+            const startBloc = grid[startBlocRow][startBlocCol];
+            startBloc.wall = false;
+			let tmpPath = aStar(startBloc, endBloc);
+			setpath(tmpPath);
+        }
+    }, [endBloc])
+    
+    const cleanPaths = () => {
+        let tmp = [...grid]
+        		for (let i = 0; i < initialRows; i++) {
+							for (let j = 0; j < initialCols; j++) {
+								tmp[i][j].isInPath = false;
+							}
+                }
+      setgrid(tmp)
+    }
     const changeTarget = (x, y) => {
-         setendBloc(grid[x][y]);
+        clearTimeout(pathTimeOut);
+        cleanPaths();
+        if (!grid[x][y].wall) setendBloc(grid[x][y]);
     }
 
     useEffect(() => {
         if (path) {
-                    for (let i = path.length - 1; i > 0; i--) {
-											let tmp = [...grid];
-											setTimeout(function () {
+            for (let i = 0; i < path.length; i++) {
+										let tmp = [...grid];
+
 												tmp[path[i].x][path[i].y].isInPath = true;
 												setgrid(tmp);
-											}, 100);
+
 										}
         }
-
 	}, [path]);
 
+    
 	function renderBloc(i, j) {
 		this.isInPath = false;
 		this.x = i;
@@ -69,7 +82,11 @@ const PathFinder = () => {
 		this.b = 0;
 		this.c = 0;
 		this.nextTo = [];
-		this.previous = null;
+        this.previous = null;
+        this.wall = false;
+        if (Math.random(1) < 0.2) {
+            this.wall = true
+        }
 		this.addNextTo = function (grid) {
 			let i = this.x;
 			let j = this.y;
@@ -93,7 +110,7 @@ const PathFinder = () => {
 				return (
 					<div key={rowIndex} className='blocRow'>
 						{row.map((col, colIndex) => {
-							const { isStart, isEnd, isInPath } = col;
+							const { isStart, isEnd, isInPath, wall } = col;
 							return (
 								<Bloc
 									key={colIndex}
@@ -102,7 +119,8 @@ const PathFinder = () => {
 										isStart,
 										rowIndex,
 										colIndex,
-										isInPath,
+                                        isInPath,
+                                        wall,
 										changeTarget,
 									}}
 								></Bloc>
