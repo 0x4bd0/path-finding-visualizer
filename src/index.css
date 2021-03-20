@@ -46,3 +46,7 @@ code {
 .bloc:hover {
   background-color: royalblue;
 }
+
+.inPath{
+  background-color: salmon;
+}
