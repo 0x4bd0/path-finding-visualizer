@@ -113,7 +113,7 @@ const PathFinder = () => {
 		<div>
 			<div className='configBox'>
 				<div className='configBoxItem'>
-					<label htmlFor=''>Cols</label>
+					<label htmlFor=''>Columns</label>
 					<input type='text' name='' id='' value={initialCols} />
 				</div>
 				<div className='configBoxItem'>
