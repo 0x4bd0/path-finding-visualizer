@@ -64,3 +64,15 @@ code {
 .xyp{
   font-size: 50%;
 }
+
+.configBox{
+      margin: 20px;
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    align-items: center;
+}
+
+.configBoxItem {
+  flex: 1;
+}

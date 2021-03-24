@@ -2,18 +2,22 @@ import { useEffect, useState } from 'react';
 import aStar from '../algros/aStar';
 import Bloc from './bloc';
 
-const initialCols = 20;
-const initialRows = 12;
-let startBlocRow, startBlocCol, endBlocRow, endBlocCol;
-startBlocRow = startBlocCol = 0;
-endBlocCol = initialCols - 1;
-endBlocRow = initialRows - 1;
+// const initialCols = 20;
+// const initialRows = 12;
+
     
 const PathFinder = () => {
 	const [grid, setgrid] = useState([]);
 	const [path, setpath] = useState([]);
 	const [endBloc, setendBloc] = useState(null);
 	const [cantFindPath, setCantFindPath] = useState(false);
+	const [initialCols, setinitialCols] = useState(20);
+	const [initialRows, setinitialRows] = useState(11);
+
+	let startBlocRow, startBlocCol, endBlocRow, endBlocCol;
+	startBlocRow = startBlocCol = 0;
+	endBlocCol = initialCols - 1;
+	endBlocRow = initialRows - 1;
 
 	useEffect(() => {
 		generateGrid();
@@ -107,6 +111,16 @@ const PathFinder = () => {
 
 	const renderBlocs = (
 		<div>
+			<div className='configBox'>
+				<div className='configBoxItem'>
+					<label htmlFor=''>Cols</label>
+					<input type='text' name='' id='' value={initialCols} />
+				</div>
+				<div className='configBoxItem'>
+					<label htmlFor=''>Rows</label>
+					<input type='text' name='' id='' value={initialRows} />
+				</div>{' '}
+			</div>
 			{grid.map((row, rowIndex) => {
 				return (
 					<div key={rowIndex} className='blocRow'>
