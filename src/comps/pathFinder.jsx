@@ -12,7 +12,7 @@ const PathFinder = () => {
 	const [endBloc, setendBloc] = useState(null);
 	const [cantFindPath, setCantFindPath] = useState(false);
 	const [initialCols, setinitialCols] = useState(20);
-	const [initialRows, setinitialRows] = useState(11);
+	const [initialRows, setinitialRows] = useState(10);
 
 	let startBlocRow, startBlocCol, endBlocRow, endBlocCol;
 	startBlocRow = startBlocCol = 0;
@@ -24,7 +24,7 @@ const PathFinder = () => {
 	}, []);
 
 	const generateGrid = () => {
-		const myGrid = new Array(initialRows)
+		let myGrid = new Array(initialRows)
 			.fill(null)
 			.map((item) => new Array(initialCols).fill(null));
 
@@ -34,6 +34,7 @@ const PathFinder = () => {
 			}
 		}
 
+		myGrid[startBlocRow][startBlocCol].wall = false;;
 		setgrid(myGrid);
 		addNextToBlocs(myGrid);
 	};
@@ -41,7 +42,6 @@ const PathFinder = () => {
 	useEffect(() => {
 		if (endBloc) {
 			const startBloc = grid[startBlocRow][startBlocCol];
-			startBloc.wall = false;
 			let tmpPath = aStar(startBloc, endBloc);
 			if (tmpPath) {
 				setpath(tmpPath);
@@ -109,17 +109,37 @@ const PathFinder = () => {
 		}
 	};
 
+	const reRenderBoard = () => {
+		generateGrid();
+	};
+
 	const renderBlocs = (
 		<div>
 			<div className='configBox'>
 				<div className='configBoxItem'>
 					<label htmlFor=''>Columns</label>
-					<input type='text' name='' id='' value={initialCols} />
+					<input
+						type='text'
+						name=''
+						id=''
+						value={initialCols}
+						onChange={(e) => setinitialCols(parseInt(e.target.value))}
+					/>
 				</div>
 				<div className='configBoxItem'>
 					<label htmlFor=''>Rows</label>
-					<input type='text' name='' id='' value={initialRows} />
-				</div>{' '}
+					<input
+						type='text'
+						name=''
+						id=''
+						value={initialRows}
+						onChange={(e) => setinitialRows(parseInt(e.target.value))}
+					/>
+				</div>
+			</div>
+
+			<div className='configBox'>
+				<button onClick={() => reRenderBoard()}>Render</button>
 			</div>
 			{grid.map((row, rowIndex) => {
 				return (
