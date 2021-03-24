@@ -141,29 +141,31 @@ const PathFinder = () => {
 			<div className='configBox'>
 				<button onClick={() => reRenderBoard()}>Render</button>
 			</div>
-			{grid.map((row, rowIndex) => {
-				return (
-					<div key={rowIndex} className='blocRow'>
-						{row.map((col, colIndex) => {
-							const { isStart, isEnd, isInPath, wall } = col;
-							return (
-								<Bloc
-									key={colIndex}
-									props={{
-										isEnd,
-										isStart,
-										rowIndex,
-										colIndex,
-										isInPath,
-										wall,
-										changeTarget,
-									}}
-								></Bloc>
-							);
-						})}
-					</div>
-				);
-			})}
+			<div className='board'>
+				{grid.map((row, rowIndex) => {
+					return (
+						<div key={rowIndex} className='blocRow'>
+							{row.map((col, colIndex) => {
+								const { isStart, isEnd, isInPath, wall } = col;
+								return (
+									<Bloc
+										key={colIndex}
+										props={{
+											isEnd,
+											isStart,
+											rowIndex,
+											colIndex,
+											isInPath,
+											wall,
+											changeTarget,
+										}}
+									></Bloc>
+								);
+							})}
+						</div>
+					);
+				})}
+			</div>
 		</div>
 	);
 	return (

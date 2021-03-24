@@ -78,6 +78,7 @@ code {
     display: flex;
     justify-content: center;
     gap: 15px;
+    align-items: center;
 }
 
 
@@ -89,14 +90,15 @@ code {
 
 
 .configBox > button{
-    flex : 1;
+    flex: 1 1;
     flex-grow: unset;
     margin: 0 auto;
-    padding: 8px 12px;
-    color: black;
-    border: 1px solid black;
+    padding: 10px 20px;
+    color: white;
+    border: 0px solid black;
     border-radius: 5px;
-    background: linear-gradient(
+    /* background: linear-gradient( 
 45deg
-, #7fffd3, salmon);
+ , #7fffd3, salmon); */
+    background-color: #007bff!important;
 }
