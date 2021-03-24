@@ -145,7 +145,7 @@ const PathFinder = () => {
 			<div className='configBox'>
 				<button onClick={() => reRenderBoard()}>Render</button>
 			</div>
-			<div className='board'>
+			<div className='meBoard'>
 				{grid.map((row, rowIndex) => {
 					return (
 						<div key={rowIndex} className='blocRow'>
