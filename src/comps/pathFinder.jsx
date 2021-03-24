@@ -123,7 +123,9 @@ const PathFinder = () => {
 						name=''
 						id=''
 						value={initialCols}
-						onChange={(e) => setinitialCols(parseInt(e.target.value))}
+						onChange={(e) =>
+							setinitialCols(e.target.value > 0 ? parseInt(e.target.value) : 5)
+						}
 					/>
 				</div>
 				<div className='configBoxItem'>
@@ -133,7 +135,9 @@ const PathFinder = () => {
 						name=''
 						id=''
 						value={initialRows}
-						onChange={(e) => setinitialRows(parseInt(e.target.value))}
+						onChange={(e) =>
+							setinitialRows(e.target.value > 0 ? parseInt(e.target.value) : 5)
+						}
 					/>
 				</div>
 			</div>
